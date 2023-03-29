@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
+import ydata_profiling
 from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
@@ -42,8 +43,9 @@ if uploaded_file is not None:
 				st.pyplot(fig)
 		with col2:
 			if st.checkbox("Bi-Variables",help = 'Click here to view scatterplot between variables'):
-				selected_x_var = st.selectbox('What do want the x variable to be?',data_file.columns)
 				selected_y_var = st.selectbox('What about the y?',data_file.columns)
+				fil = data_file.drop(selected_y_var,axis=1)
+				selected_x_var = st.selectbox('What do want the x variable to be?',fil.columns)
 				fig, ax = plt.subplots()
 				ax = sns.scatterplot(x = data_file[selected_x_var],y = data_file[selected_y_var])
 				plt.xlabel(selected_x_var)
@@ -56,7 +58,8 @@ if uploaded_file is not None:
 		with col3:
 			if st.checkbox("Simple linear regression"):
 				y_var = st.selectbox('Select dependent variable (Y)',data_file.columns)
-				x_var = st.selectbox('Select independent variable (X)',data_file.columns)
+				fil = data_file.drop(y_var,axis=1)
+				x_var = st.selectbox('Select independent variable (X)',fil.columns)
 				y = data_file[y_var]	
 				X = data_file[x_var]
 				x=sm.add_constant(X)
@@ -65,10 +68,27 @@ if uploaded_file is not None:
 		
 		with col4:
 			if st.checkbox("Multiple Linear Regression"):
+				y_var = st.selectbox('Select dependent variable (Y)',data_file.columns)
+				fil = data_file.drop(y_var,axis=1)
+				x_columns = st.multiselect("Select the independent variable(s) (X):",fil.columns.tolist())
+				y =  data_file[y_var]
+				X = data_file[x_columns]
+				x= sm.add_constant(X)
+				results = sm.OLS(y,x).fit()
+				st.write(results.summary())	
+	
+
+	
+	
+
+					
 				
 
-				x_columns = st.multiselect("Select the independent variable(s) (X):", data_file.columns.tolist())
-				
+
+
+        
+
+
 	
 	
 
