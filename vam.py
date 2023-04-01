@@ -24,6 +24,7 @@ uploaded_file = st.file_uploader('Select Your data file (CSV)')
 
 if uploaded_file is not None:
 	data_file = pd.read_csv(uploaded_file)
+	st.write("It was assumed that your data was pre-processed and ready to use. If that is not the case, please preprocess your data first.")
 
 	if st.checkbox("Profiling",help="Click here to view full profiling of your dataset"):
 		profile = ProfileReport(data_file, explorative=True)
