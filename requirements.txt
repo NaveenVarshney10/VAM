@@ -7,4 +7,4 @@ statsmodels==0.13.5
 ydata-profiling==4.1.1
 pandas-profiling==3.6.6
 streamlit-pandas-profiling==0.1.3
-
+scipy==1.9.3
