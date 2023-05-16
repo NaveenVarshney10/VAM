@@ -34,7 +34,7 @@ if uploaded_file is not None:
 		st.write(data_file.head(10))	
 
 	if st.checkbox("Summary",help = 'Click here to view quick summary of your data'):
-		st.write(data_file.describe(include='all'))
+		st.write(data_file.describe(include='all').T)
 	
 
 	if st.checkbox("Visualization"):
